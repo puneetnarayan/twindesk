@@ -1,0 +1,55 @@
+// TwinDesk — Copyright (C) 2026 inukaasith. GPL-3.0, see LICENSE.
+// `in.*` from a Mac window that shows something of this PC (the screen: an app
+// window), injected by the helper. Only while KVM is at home and "Let the Mac control it" is on;
+// keys go through P.mapKeyFromOtherPlatform when Ctrl/Cmd swapping is on.
+const P = require('../shared/protocol.js');
+
+const T = P.T;
+const POINTER = new Set([T.IN_MOVE, T.IN_DOWN, T.IN_UP]);
+
+class RemoteInput {
+  // opts: link (peer.js), helper, settings (shared), inputAllowed() (KVM at home)
+  constructor(opts) {
+    Object.assign(this, opts);
+    this.held = false; // keys/buttons may be held down by the Mac
+  }
+
+  get allowed() {
+    return this.settings.pcScreen.input && this.inputAllowed();
+  }
+
+  // move(x, y): put the pointer at x,y normalized over what the Mac sees (helper command).
+  // before(): called before a button/key goes down (e.g. raise the app window).
+  handle(m, move, before) {
+    if (!this.allowed) return;
+    const ev = (e) => this.helper.send('inject', { ev: e });
+    if (POINTER.has(m.t)) {
+      const x = Number(m.x), y = Number(m.y);
+      if (Number.isFinite(x) && Number.isFinite(y)) {
+        if (m.t === T.IN_DOWN && before) before();
+        move(Math.min(1, Math.max(0, x)), Math.min(1, Math.max(0, y)));
+      }
+      if (m.t !== T.IN_MOVE && Number.isInteger(m.b)) {
+        ev({ t: m.t === T.IN_DOWN ? T.K_DOWN : T.K_UP, b: m.b });
+        this.held = true;
+      }
+    } else if (m.t === T.IN_WHEEL) {
+      ev({ t: T.K_WHEEL, dx: Number(m.dx) || 0, dy: Number(m.dy) || 0, mode: 'pixel' });
+    } else if (typeof m.code === 'string') {
+      if (m.t === T.IN_KEY_DOWN && before) before();
+      const code = this.settings.keys.swapCtrlCmd && P.keySwapNeeded(P.OS.WIN, this.link.peerOs) ? P.mapKeyFromOtherPlatform(m.code) : m.code;
+      ev({ t: m.t === T.IN_KEY_DOWN ? T.K_KEY_DOWN : T.K_KEY_UP, code });
+      this.held = true;
+    }
+  }
+
+  // Let go of anything the Mac still holds (a session ended, input switched off).
+  release() {
+    if (!this.held) return;
+    this.held = false;
+    if (this.inputAllowed()) this.helper.send('releaseAll');
+  }
+}
+
+RemoteInput.TYPES = [T.IN_MOVE, T.IN_DOWN, T.IN_UP, T.IN_WHEEL, T.IN_KEY_DOWN, T.IN_KEY_UP];
+module.exports = RemoteInput;

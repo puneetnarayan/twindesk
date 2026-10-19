@@ -1,0 +1,84 @@
+Third-party notices
+===================
+
+TwinDesk is licensed under the GNU General Public License v3.0 (see LICENSE).
+It includes or adapts the following works.
+
+
+Beamer
+------
+Source:  https://github.com/kalkman-code/beamer
+License: GPL-3.0 — Copyright (C) Kalkman Code
+
+Ported code (each file carries a "Portions adapted from Beamer" notice):
+  - windows-helper/src/Capture.cs  C# port of win_app/capture_win.py hooks and raw-mouse edge push
+  - windows-helper/src/Inject.cs   C# port of the SendInput absolute-move and scan-code key approach
+  - windows/firewall.js            JS port of win_app/firewall_win.py (status script + interpret)
+  - linux-helper/src/capture.c     port of windows-helper/src/Capture.cs to XInput2
+
+Design reference: pairing UX, input ownership and screen-edge crossing, key mapping, and the
+capture/injection safety rules (mac/kvm.js, mac-helper/Sources/macshare-helper/Capture.swift).
+
+
+DeskPad — CGVirtualDisplayPrivate.h
+-----------------------------------
+Source:  https://github.com/Stengo/DeskPad (DeskPad/CGVirtualDisplayPrivate.h)
+         Header originally written by Khaos Tian (VirtualDisplayExp, 2021).
+Used in: mac-helper/Sources/VirtualDisplayBridge/include/CGVirtualDisplayPrivate.h (unchanged)
+License: MIT
+
+  Copyright (c) 2022 Bastian Andelefski
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+  and associated documentation files (the "Software"), to deal in the Software without
+  restriction, including without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all copies or
+  substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+scrcpy (scrcpy-server 5.0.1)
+----------------------------
+Source:  https://github.com/Genymobile/scrcpy
+License: Apache-2.0 (see licenses/Apache-2.0.txt)
+         Copyright (C) 2018 Genymobile
+         Copyright (C) 2018-2026 Romain Vimont
+
+Included unmodified as mac/vendor/scrcpy-server (and windows/vendor/scrcpy-server in the Windows
+installer, linux/vendor/scrcpy-server in the Linux packages). It runs on the phone, started over
+wireless debugging, for the phone's screen, sound, touch, mouse, keyboard and clipboard
+(mac/scrcpy.js, windows/scrcpy.js, linux/scrcpy.js speak its protocol).
+
+
+Android SDK Platform-Tools (adb)
+--------------------------------
+Source:  https://developer.android.com/tools/releases/platform-tools
+         https://android.googlesource.com/platform/packages/modules/adb
+License: Apache-2.0 (see licenses/Apache-2.0.txt) — Copyright (C) The Android Open Source Project.
+         The prebuilt binaries are distributed by Google under the Android SDK terms; their full
+         notices ship next to them (windows/vendor/adb/NOTICE.txt in the Windows installer,
+         linux/vendor/adb/NOTICE.txt in the Linux packages).
+
+adb.exe, AdbWinApi.dll and AdbWinUsbApi.dll are downloaded from Google when the Windows installer
+is built (windows/scripts/fetch-adb.js) and included in it, for wireless debugging with the phone;
+adb for Linux likewise when the Linux packages are built (linux/scripts/fetch-adb.js).
+
+
+Downloaded at run time (not included in this repository)
+--------------------------------------------------------
+Virtual Display Driver — https://github.com/VirtualDrivers/Virtual-Display-Driver — MIT.
+Installed on Windows only when the user turns on Extend (windows/vdd.js).
+
+
+npm dependencies (installed by npm, not included in this repository)
+--------------------------------------------------------------------
+ws (MIT), Electron (MIT), electron-builder (MIT), @electron/packager (BSD-2-Clause) and their
+dependencies (MIT, ISC, BSD, BlueOak-1.0.0 and Apache-2.0 licenses, all compatible with GPL-3.0).

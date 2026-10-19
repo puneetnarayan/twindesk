@@ -1,0 +1,67 @@
+name: Build Android
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release to put the files on (e.g. v2.0.1; made as a draft if it isn't there). Empty = run artifacts only.
+        required: false
+        default: ''
+
+# Write: the files can go straight onto a release.
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Always the main branch, whichever branch the run was started from.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Signed with the ANDROID_KEYSTORE secret when it's there, so the APKs install over the ones
+      # people already have (and the computers can install the full one over the standard one).
+      # Without it they're signed with this runner's own debug key: fine to try, but they won't
+      # install over a build signed with yours.
+      - name: Signing key
+        env:
+          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+        run: |
+          if [ -z "$KEYSTORE" ]; then
+            echo "::warning::No ANDROID_KEYSTORE secret: signed with the runner's debug key"
+          else
+            mkdir -p ~/.android
+            echo "$KEYSTORE" | base64 -d > ~/.android/debug.keystore
+          fi
+
+      - name: Build the standard and full APKs
+        working-directory: android
+        run: |
+          ./gradlew --no-daemon assembleRelease
+          v=$(grep -m1 versionName app/build.gradle.kts | sed 's/.*"\(.*\)".*/\1/')
+          mkdir -p dist
+          cp app/build/outputs/apk/standard/release/app-standard-release.apk "dist/TwinDesk-$v.apk"
+          cp app/build/outputs/apk/full/release/app-full-release.apk "dist/TwinDesk-$v-full.apk"
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: twindesk-android
+          path: android/dist/TwinDesk-*.apk
+
+      # Straight onto the release, no download and re-upload.
+      - name: Upload to the release
+        if: inputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${{ inputs.tag }}" >/dev/null 2>&1 || gh release create "${{ inputs.tag }}" --draft --target main --title "${{ inputs.tag }}" --notes "" || true
+          gh release upload "${{ inputs.tag }}" android/dist/TwinDesk-*.apk --clobber

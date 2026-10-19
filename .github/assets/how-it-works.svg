@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8e96a6"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="560" rx="24" fill="#16181d"/>
+  <text x="600" y="54" text-anchor="middle" font-size="26" font-weight="700" fill="#ffffff">How TwinDesk works</text>
+
+  <!-- left computer -->
+  <g transform="translate(50,90)">
+    <rect width="380" height="420" rx="18" fill="#1f232b" stroke="#343a46"/>
+    <text x="190" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">Mac</text>
+    <rect x="24" y="64" width="332" height="150" rx="12" fill="#0a84ff" opacity="0.14" stroke="#0a84ff" stroke-opacity="0.5"/>
+    <text x="44" y="94" font-size="16" font-weight="700" fill="#7cc0ff">Electron app</text>
+    <text x="44" y="120" font-size="14" fill="#c9cfda">Settings window and menu bar</text>
+    <text x="44" y="144" font-size="14" fill="#c9cfda">Pairing, discovery, secure link</text>
+    <text x="44" y="168" font-size="14" fill="#c9cfda">Mouse and keyboard state machine</text>
+    <text x="44" y="192" font-size="14" fill="#c9cfda">WebRTC capture and viewer windows</text>
+    <rect x="24" y="234" width="332" height="160" rx="12" fill="#ff9f0a" opacity="0.12" stroke="#ff9f0a" stroke-opacity="0.5"/>
+    <text x="44" y="264" font-size="16" font-weight="700" fill="#ffc46b">Native helper · Swift</text>
+    <text x="44" y="290" font-size="14" fill="#c9cfda">Virtual display (Extend)</text>
+    <text x="44" y="314" font-size="14" fill="#c9cfda">Event tap: edge, hotkey, gestures</text>
+    <text x="44" y="338" font-size="14" fill="#c9cfda">Input injection, drag and drop</text>
+    <text x="44" y="362" font-size="14" fill="#c9cfda">System audio, apps, SMB mounts</text>
+  </g>
+
+  <!-- right computer -->
+  <g transform="translate(770,90)">
+    <rect width="380" height="420" rx="18" fill="#1f232b" stroke="#343a46"/>
+    <text x="190" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">Windows · Linux</text>
+    <rect x="24" y="64" width="332" height="150" rx="12" fill="#0a84ff" opacity="0.14" stroke="#0a84ff" stroke-opacity="0.5"/>
+    <text x="44" y="94" font-size="16" font-weight="700" fill="#7cc0ff">Electron app</text>
+    <text x="44" y="120" font-size="14" fill="#c9cfda">Settings window and tray</text>
+    <text x="44" y="144" font-size="14" fill="#c9cfda">Pairing, discovery, secure link</text>
+    <text x="44" y="168" font-size="14" fill="#c9cfda">Mouse and keyboard state machine</text>
+    <text x="44" y="192" font-size="14" fill="#c9cfda">Monitor 2 and app windows</text>
+    <rect x="24" y="234" width="332" height="160" rx="12" fill="#bf5af2" opacity="0.12" stroke="#bf5af2" stroke-opacity="0.5"/>
+    <text x="44" y="264" font-size="16" font-weight="700" fill="#dba6ff">Native helper · C# / C</text>
+    <text x="44" y="290" font-size="14" fill="#c9cfda">Low-level hooks / XInput2 capture</text>
+    <text x="44" y="314" font-size="14" fill="#c9cfda">SendInput / XTest injection</text>
+    <text x="44" y="338" font-size="14" fill="#c9cfda">Touchpad gestures, monitors</text>
+    <text x="44" y="362" font-size="14" fill="#c9cfda">Window capture, native drag</text>
+  </g>
+
+  <!-- channels -->
+  <g font-size="14" text-anchor="middle">
+    <line x1="440" y1="180" x2="760" y2="180" stroke="#8e96a6" stroke-width="2" marker-start="url(#arr)" marker-end="url(#arr)"/>
+    <text x="600" y="166" font-weight="700" fill="#ffffff">Control link</text>
+    <text x="600" y="202" fill="#9aa3b2">WebSocket over TLS · port 47800</text>
+    <text x="600" y="222" fill="#9aa3b2">input, clipboard, files, settings sync</text>
+
+    <line x1="440" y1="300" x2="760" y2="300" stroke="#8e96a6" stroke-width="2" marker-start="url(#arr)" marker-end="url(#arr)"/>
+    <text x="600" y="286" font-weight="700" fill="#ffffff">Media</text>
+    <text x="600" y="322" fill="#9aa3b2">WebRTC · H.264, low-latency</text>
+    <text x="600" y="342" fill="#9aa3b2">screens, app windows, sound</text>
+
+    <line x1="440" y1="420" x2="760" y2="420" stroke="#8e96a6" stroke-width="2" stroke-dasharray="6 6" marker-start="url(#arr)" marker-end="url(#arr)"/>
+    <text x="600" y="406" font-weight="700" fill="#ffffff">System services</text>
+    <text x="600" y="442" fill="#9aa3b2">SMB shared folders · SSH terminal</text>
+    <text x="600" y="462" fill="#9aa3b2">Wake-on-LAN · UDP discovery</text>
+  </g>
+</svg>

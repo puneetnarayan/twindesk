@@ -1,0 +1,65 @@
+name: Build Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release to put the files on (e.g. v2.0.1; made as a draft if it isn't there). Empty = run artifacts only.
+        required: false
+        default: ''
+
+# Write: the full Android APK can come from a draft release, which a read-only token can't see.
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      # Always the main branch, whichever branch the run was started from.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: ./.github/actions/android-full
+        with:
+          keystore: ${{ secrets.ANDROID_KEYSTORE }}
+
+      - name: Install dependencies
+        working-directory: windows
+        run: npm install
+
+      # The helper builds with .NET Framework's csc.exe, which the runner has. One AnyCPU helper
+      # serves both installers.
+      - name: Build the installers (x64 and arm64)
+        working-directory: windows
+        run: npm run dist -- x64 arm64
+
+      - name: Upload the x64 installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: twindesk-windows-x64
+          path: |
+            windows/dist/*.exe
+            !windows/dist/*-arm64.exe
+
+      - name: Upload the arm64 installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: twindesk-windows-arm64
+          path: windows/dist/*-arm64.exe
+
+      # Straight onto the release, no download and re-upload.
+      - name: Upload to the release
+        if: inputs.tag != ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${{ inputs.tag }}" >/dev/null 2>&1 || gh release create "${{ inputs.tag }}" --draft --target main --title "${{ inputs.tag }}" --notes "" || true
+          gh release upload "${{ inputs.tag }}" windows/dist/*.exe --clobber

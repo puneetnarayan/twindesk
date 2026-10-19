@@ -1,0 +1,62 @@
+<!doctype html>
+<!-- TwinDesk — Copyright (C) 2026 inukaasith. GPL-3.0, see LICENSE.
+     The DMG window background, drawn like the website: a squared notebook page with a red margin,
+     the TwinDesk name in Caveat and a pencil arrow from the app to Applications.
+     Rendered to background.tiff (1x and 2x) by make-background.sh. It is 660 x 440 points, a little
+     taller than the window in settings.py, so a taller title bar never shows an edge. -->
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Shantell+Sans:wght@400;500&display=block">
+<style>
+  :root {
+    --paper: #fcfaf5; --ink: #2a2620; --pencil: #77705f; --red: #d9472f;
+    --grid: rgba(110, 160, 210, 0.13); --margin: rgba(220, 90, 80, 0.30); --tape: rgba(255, 228, 130, 0.62);
+    --hand: "Caveat", cursive; --text: "Shantell Sans", system-ui, sans-serif;
+  }
+  html, body { margin: 0; width: 660px; height: 440px; overflow: hidden; }
+  body {
+    position: relative; color: var(--ink); font-family: var(--text);
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(90deg, transparent 47px, var(--margin) 47px 49px, transparent 49px),
+      linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 100% 100%, 28px 28px, 28px 28px;
+    background-position: 0 0, -1px 13px, 13px -1px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .tape { position: absolute; width: 96px; height: 26px; background: var(--tape); top: -9px; box-shadow: 0 1px 2px rgba(0,0,0,.07); }
+  .tape.tl { left: 70px; transform: rotate(-6deg); }
+  .tape.tr { right: 28px; transform: rotate(5deg); }
+
+  header { position: absolute; left: 0; right: 0; top: 20px; display: flex; flex-direction: column; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 4px; }
+  .brand img { width: 60px; height: 60px; margin: -4px 0; }
+  .brand h1 { position: relative; margin: 0; font: 700 58px/0.9 var(--hand); letter-spacing: 0.5px; }
+  .brand h1 svg { position: absolute; left: -4%; width: 108%; bottom: -12px; height: 16px; }
+  .tag { margin: 14px 0 0; font-size: 14px; color: var(--pencil); }
+  mark { background: linear-gradient(104deg, transparent 2%, rgba(255, 222, 89, .75) 4%, rgba(255, 222, 89, .75) 96%, transparent 98%); color: inherit; padding: 0 4px; border-radius: 4px; }
+
+  .note { position: absolute; left: 0; right: 0; top: 140px; text-align: center; font: 700 30px/1 var(--hand); color: var(--red); transform: rotate(-2.5deg); }
+  svg.arrow { position: absolute; left: 0; top: 0; width: 660px; height: 440px; overflow: visible; }
+  svg.arrow path { fill: none; stroke: var(--red); stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+  <div class="tape tl"></div><div class="tape tr"></div>
+
+  <header>
+    <div class="brand">
+      <img src="../../shared/icon/teindesk-dark-mac.png" alt="">
+      <h1>TwinDesk<svg viewBox="0 0 300 20" preserveAspectRatio="none"><path d="M3 12 C 60 4, 120 16, 180 9 S 270 6, 297 11" fill="none" stroke="#d9472f" stroke-width="5" stroke-linecap="round"/></svg></h1>
+    </div>
+    <p class="tag">Use two computers as <mark>one desk</mark></p>
+  </header>
+
+  <div class="note">drag to Applications</div>
+  <svg class="arrow" viewBox="0 0 660 440">
+    <path d="M236 234 C 280 194, 368 190, 418 222"/>
+    <path d="M396 221 L 419 223 L 408 202"/>
+  </svg>
+</body>
+</html>

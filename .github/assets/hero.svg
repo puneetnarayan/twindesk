@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 550" width="1200" height="550" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15171c"/>
+      <stop offset="1" stop-color="#1d2230"/>
+    </linearGradient>
+    <linearGradient id="link" x1="0" x2="1">
+      <stop offset="0" stop-color="#34c759"/>
+      <stop offset="0.5" stop-color="#0a84ff"/>
+      <stop offset="1" stop-color="#bf5af2"/>
+    </linearGradient>
+    <linearGradient id="screenA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2b3a67"/>
+      <stop offset="1" stop-color="#0f6fff"/>
+    </linearGradient>
+    <linearGradient id="screenB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a1f5d"/>
+      <stop offset="1" stop-color="#b14bff"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="550" rx="24" fill="url(#bg)"/>
+
+  <!-- title -->
+  <text x="600" y="70" text-anchor="middle" font-size="40" font-weight="700" fill="#ffffff">Two computers. One desk.</text>
+  <text x="600" y="106" text-anchor="middle" font-size="18" fill="#9aa3b2">Share screens, mouse, keyboard, clipboard, files, sound and apps between Mac, Windows and Linux</text>
+
+  <!-- Mac laptop -->
+  <g transform="translate(150,170)">
+    <rect x="0" y="0" width="330" height="210" rx="14" fill="#2a2d34" stroke="#4a4f5a" stroke-width="2"/>
+    <rect x="12" y="12" width="306" height="186" rx="6" fill="url(#screenA)"/>
+    <rect x="12" y="12" width="306" height="18" rx="6" fill="#000" opacity="0.25"/>
+    <circle cx="26" cy="21" r="4" fill="#ff5f57"/><circle cx="40" cy="21" r="4" fill="#febc2e"/><circle cx="54" cy="21" r="4" fill="#28c840"/>
+    <!-- PC window on the Mac -->
+    <rect x="120" y="50" width="180" height="112" rx="6" fill="#111" opacity="0.85"/>
+    <rect x="120" y="50" width="180" height="14" rx="6" fill="#2a2d34"/>
+    <rect x="126" y="70" width="168" height="80" rx="3" fill="url(#screenB)"/>
+    <rect x="126" y="142" width="168" height="8" fill="#000" opacity="0.4"/>
+    <text x="210" y="61" text-anchor="middle" font-size="9" fill="#cfd5df">PC — TwinDesk</text>
+    <path d="M-30 210 H360 L340 226 H-10 Z" fill="#3a3e47"/>
+    <text x="165" y="262" text-anchor="middle" font-size="18" font-weight="600" fill="#ffffff">Mac</text>
+  </g>
+
+  <!-- link -->
+  <g>
+    <path d="M520 275 C 570 240, 630 240, 680 275" fill="none" stroke="url(#link)" stroke-width="10" filter="url(#glow)" opacity="0.6"/>
+    <path d="M520 275 C 570 240, 630 240, 680 275" fill="none" stroke="url(#link)" stroke-width="4" stroke-linecap="round"/>
+    <rect x="555" y="205" width="90" height="26" rx="13" fill="#0a84ff" opacity="0.18"/>
+    <text x="600" y="223" text-anchor="middle" font-size="13" font-weight="600" fill="#7cc0ff">3 ms · LAN</text>
+    <!-- cursor crossing -->
+    <path d="M592 280 l0 22 l6 -6 l5 11 l4 -2 l-5 -11 l8 0 z" fill="#ffffff" stroke="#111" stroke-width="1.5"/>
+    <text x="600" y="345" text-anchor="middle" font-size="13" fill="#9aa3b2">paired · TLS encrypted</text>
+  </g>
+
+  <!-- PC monitor -->
+  <g transform="translate(720,160)">
+    <rect x="0" y="0" width="330" height="210" rx="10" fill="#2a2d34" stroke="#4a4f5a" stroke-width="2"/>
+    <rect x="10" y="10" width="310" height="180" rx="4" fill="url(#screenB)"/>
+    <rect x="10" y="176" width="310" height="14" fill="#000" opacity="0.45"/>
+    <g fill="#ffffff" opacity="0.85"><rect x="150" y="179" width="8" height="8" rx="1"/><rect x="162" y="179" width="8" height="8" rx="1"/><rect x="174" y="179" width="8" height="8" rx="1"/></g>
+    <!-- Mac app window on the PC -->
+    <rect x="30" y="30" width="150" height="100" rx="6" fill="#f2f2f7"/>
+    <rect x="30" y="30" width="150" height="16" rx="6" fill="#dcdce1"/>
+    <circle cx="40" cy="38" r="3" fill="#ff5f57"/><circle cx="50" cy="38" r="3" fill="#febc2e"/><circle cx="60" cy="38" r="3" fill="#28c840"/>
+    <rect x="40" y="56" width="90" height="6" rx="3" fill="#c7c7cc"/><rect x="40" y="70" width="120" height="6" rx="3" fill="#c7c7cc"/><rect x="40" y="84" width="70" height="6" rx="3" fill="#c7c7cc"/>
+    <text x="105" y="122" text-anchor="middle" font-size="9" fill="#6e6e73">a Mac app, in its own window</text>
+    <rect x="140" y="210" width="50" height="26" fill="#3a3e47"/>
+    <rect x="105" y="236" width="120" height="8" rx="4" fill="#3a3e47"/>
+    <text x="165" y="272" text-anchor="middle" font-size="18" font-weight="600" fill="#ffffff">Windows or Linux</text>
+  </g>
+
+  <!-- feature chips -->
+  <g font-size="14" font-weight="600" fill="#e6e9ef" text-anchor="middle">
+    <g transform="translate(78,470)">
+      <rect x="0" y="0" width="120" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="60" y="23">🖥  Screen</text>
+      <rect x="132" y="0" width="150" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="207" y="23">🖱  Mouse + keys</text>
+      <rect x="294" y="0" width="120" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="354" y="23">📋  Clipboard</text>
+      <rect x="426" y="0" width="100" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="476" y="23">📁  Files</text>
+      <rect x="538" y="0" width="100" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="588" y="23">🔊  Sound</text>
+      <rect x="650" y="0" width="100" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="700" y="23">🪟  Apps</text>
+      <rect x="762" y="0" width="150" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="837" y="23">🔔  Notifications</text>
+      <rect x="924" y="0" width="120" height="36" rx="18" fill="#ffffff" opacity="0.07"/><text x="984" y="23">⌨️  Terminal</text>
+    </g>
+  </g>
+</svg>

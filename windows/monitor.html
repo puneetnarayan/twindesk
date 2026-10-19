@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- TwinDesk — Copyright (C) 2026 inukaasith. GPL-3.0, see LICENSE. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; media-src 'self' blob: mediastream:">
+  <title>Monitor 2</title>
+  <link rel="stylesheet" href="monitor.css">
+</head>
+<body>
+  <video id="video" autoplay muted playsinline disablepictureinpicture disableremoteplayback></video>
+  <canvas id="framegen" class="hidden"></canvas>
+  <audio id="audio" autoplay></audio>
+  <div id="overlay">Mac is not sharing</div>
+  <pre id="stats" class="hidden"></pre>
+  <div id="drop-status" class="hidden"></div>
+  <script src="../shared/protocol.js"></script>
+  <script src="../shared/framegen.js"></script>
+  <script src="monitor.js"></script>
+  <script src="monitor-input.js"></script>
+  <script src="monitor-drop.js"></script>
+  <script src="monitor-apps.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Files copied on the computer, waiting on the clipboard (FileClip). -->
+    <cache-path name="clip" path="clip/" />
+</paths>

@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- TwinDesk — Copyright (C) 2026 inukaasith. GPL-3.0, see LICENSE. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'; media-src 'self' blob: mediastream:">
+  <title>App — TwinDesk</title>
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    #video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+    #overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; color: #9a9fa8;
+      font: 14px/1.4 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; pointer-events: none; user-select: none; }
+    #overlay.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <video id="video" autoplay playsinline muted disablepictureinpicture></video>
+  <div id="overlay">Connecting…</div>
+  <script src="../shared/protocol.js"></script>
+  <script src="appview-renderer.js"></script>
+</body>
+</html>

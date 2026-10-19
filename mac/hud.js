@@ -1,0 +1,56 @@
+// TwinDesk — Copyright (C) 2026 inukaasith. GPL-3.0, see LICENSE.
+// The popup that says where the mouse and keyboard are: a small pill at
+// the bottom of the screen under the pointer, like the volume HUD. Click-through, on every Space,
+// never captured into a screen stream (content protection), off with General › "Show a popup".
+'use strict';
+
+const path = require('path');
+const { BrowserWindow, screen } = require('electron');
+
+const W = 360, H = 64, SHOW_MS = 1400;
+const BIG_W = 460, BIG_H = 230, BIG_MS = 2200; // the sharing on/off card
+
+class Hud {
+  constructor(getSettings) {
+    this.getSettings = getSettings;
+    this.win = null;
+    this.ready = null;
+    this.timer = null;
+  }
+
+  _ensure() {
+    if (this.win && !this.win.isDestroyed()) return this.ready;
+    this.win = new BrowserWindow({
+      width: W, height: H, show: false, frame: false, transparent: true, resizable: false, movable: false,
+      focusable: false, skipTaskbar: true, hasShadow: false, type: 'panel', alwaysOnTop: true,
+      webPreferences: { preload: path.join(__dirname, 'preload-hud.js'), contextIsolation: true, nodeIntegration: false },
+    });
+    this.win.setIgnoreMouseEvents(true);
+    this.win.setAlwaysOnTop(true, 'screen-saver');
+    this.win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    this.win.setContentProtection(true); // never in a screen share or Monitor 2
+    this.ready = this.win.loadFile(path.join(__dirname, 'hud.html'));
+    return this.ready;
+  }
+
+  // kind: 'away' (we use the other computer), 'driven' (it uses this Mac), 'home';
+  // 'linkOn' / 'linkOff': the big card in the middle of the screen (sharing switched on/off), with `sub`.
+  async show(kind, text, sub = '') {
+    const big = kind === 'linkOn' || kind === 'linkOff';
+    if (this.getSettings().app.hud === false && !big) return; // the on/off card always shows
+    await this._ensure();
+    const d = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
+    const [w, h] = big ? [BIG_W, BIG_H] : [W, H];
+    const y = big ? d.y + (d.height - h) / 2 - d.height * 0.08 : d.y + d.height - h - 72;
+    this.win.setBounds({ x: Math.round(d.x + (d.width - w) / 2), y: Math.round(y), width: w, height: h });
+    this.win.webContents.send('hud', { kind, text, sub });
+    this.win.showInactive();
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      if (this.win && !this.win.isDestroyed()) this.win.webContents.send('hud', { kind: 'hide' });
+      this.timer = setTimeout(() => this.win && !this.win.isDestroyed() && this.win.hide(), 400);
+    }, big ? BIG_MS : SHOW_MS);
+  }
+}
+
+module.exports = { Hud };

@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- TwinDesk — Copyright (C) 2026 inukaasith. GPL-3.0, see LICENSE. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:">
+  <title>TwinDesk</title>
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="app-pages.css">
+</head>
+<body>
+  <nav id="sidebar" aria-label="Sections">
+    <div class="identity">
+      <div class="app-mark" aria-hidden="true"></div>
+      <div class="who">
+        <div class="app-name">TwinDesk</div>
+        <div class="peer"><span id="peer-dot" class="dot"></span><span id="peer-text">Not paired</span></div>
+      </div>
+    </div>
+    <div id="phones"></div>
+    <ul id="nav" role="tablist"></ul>
+  </nav>
+
+  <main id="content">
+    <section id="banner" class="banner" hidden>
+      <div class="banner-text">
+        <div><strong id="pair-title">Pairing</strong></div>
+        <div id="pair-code-wrap"><span class="code-label">Code</span> <span id="pair-code" class="code"></span></div>
+        <div id="pair-hint" class="hint"></div>
+      </div>
+      <div class="banner-actions">
+        <button id="pair-match" class="btn primary">Codes match</button>
+        <button id="pair-cancel" class="btn">Cancel</button>
+      </div>
+    </section>
+    <div id="pages"></div>
+  </main>
+
+  <script src="../shared/protocol.js"></script>
+  <script src="ui-kit.js"></script>
+  <script src="ui-overview.js"></script>
+  <script src="ui-share.js"></script>
+  <script src="ui-receive.js"></script>
+  <script src="ui-cursor.js"></script>
+  <script src="ui-keyboard.js"></script>
+  <script src="ui-clipboard.js"></script>
+  <script src="ui-notifs.js"></script>
+  <script src="ui-files.js"></script>
+  <script src="ui-terminal.js"></script>
+  <script src="ui-audio.js"></script>
+  <script src="ui-apps.js"></script>
+  <script src="ui-phone.js"></script>
+  <script src="ui-general.js"></script>
+  <script src="ui-about.js"></script>
+  <script src="ui-setup.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

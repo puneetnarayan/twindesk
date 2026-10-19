@@ -1,0 +1,141 @@
+/* TwinDesk — Copyright (C) 2026 inukaasith. GPL-3.0, see LICENSE. */
+/* Page-specific pieces: overview hero, layout picker, clipboard history, roadmap pages. */
+
+/* Overview hero */
+.hero { padding: 22px 20px 16px; }
+.hero-devices { display: grid; grid-template-columns: 1fr 1.2fr 1fr; align-items: center; }
+.hero-device { text-align: center; }
+.hero-name { font-weight: 600; font-size: 14px; margin-top: 8px; }
+.hero-sub { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.device { margin: 0 auto; position: relative; }
+.device.mac { width: 92px; height: 58px; border-radius: 6px; border: 3px solid var(--text); opacity: 0.85; }
+.device.mac::after { content: ""; position: absolute; left: -14px; right: -14px; bottom: -9px; height: 5px; border-radius: 0 0 6px 6px; background: var(--text); }
+.device.phone { width: 38px; height: 70px; border-radius: 9px; border: 3px solid var(--text); opacity: 0.85; background: var(--phone-wall, none) center / cover; }
+.device.phone::after { content: ""; position: absolute; left: 11px; right: 11px; bottom: 4px; height: 3px; border-radius: 2px; background: var(--text); }
+.device.pc { width: 84px; height: 56px; border-radius: 4px; border: 3px solid var(--text); opacity: 0.85; }
+.device.pc::after { content: ""; position: absolute; left: 30px; right: 30px; bottom: -12px; height: 9px; border-bottom: 3px solid var(--text); border-left: 3px solid transparent; border-right: 3px solid transparent; }
+.hero-mid { text-align: center; padding: 0 8px; }
+.hero-link { height: 3px; border-radius: 2px; position: relative; overflow: hidden;
+  background: repeating-linear-gradient(90deg, var(--idle) 0 6px, transparent 6px 12px); background-size: 24px 3px;
+  animation: dash 1.6s linear infinite; transition: box-shadow 0.4s; }
+.hero-link.up { background: linear-gradient(90deg, var(--good), var(--accent)); animation: none; box-shadow: 0 0 8px rgba(48, 185, 77, 0.35); }
+.hero-pulse { display: none; }
+.hero-link.up .hero-pulse { display: block; position: absolute; top: 0; left: 0; width: 40px; height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); animation: travel 2.2s var(--ease) infinite; }
+@keyframes dash { to { background-position: 24px 0; } }
+@keyframes travel { from { left: -40px; } to { left: 100%; } }
+.device { transition: opacity 0.4s; }
+.hero-link-text { color: var(--muted); font-size: 12px; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.hero-status { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--row-line); text-align: center; color: var(--muted); }
+.hero-status.bad { color: var(--bad); }
+
+/* Cursor: layout picker */
+.layout { display: flex; align-items: center; gap: 24px; padding: 18px; }
+.layout-grid { display: grid; grid-template-columns: 70px 150px 70px; grid-template-rows: 44px 94px 44px; gap: 6px; flex: none; }
+.screen { border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 600; }
+.mac-screen { background: linear-gradient(135deg, #5ac8fa, #0a84ff); color: #fff; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1); }
+.slot { border: 1.5px dashed var(--control-line); border-radius: 6px; background: none; font-weight: 600; font-size: 12px; color: #fff; cursor: default; }
+.slot:hover { border-color: var(--accent); background: var(--accent-soft); }
+.slot.on { border: 0; background: linear-gradient(135deg, #8e8e93, #48484a); }
+.slot { transition: border-color 0.2s, background-color 0.2s, transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1); }
+.slot.on { animation: pop 0.35s cubic-bezier(0.34, 1.4, 0.64, 1); }
+@keyframes pop { from { transform: scale(0.85); } to { transform: none; } }
+.layout-hint { color: var(--muted); }
+kbd, kbd.key { font: 12px system-ui, "Ubuntu", "Cantarell", "Noto Sans", sans-serif; padding: 2px 7px; border-radius: 5px; border: 1px solid var(--control-line); border-bottom-width: 2px; background: var(--control); }
+
+/* Clipboard: history */
+.history { max-height: 360px; overflow-y: auto; }
+.hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 14px; position: relative; }
+.hist-item + .hist-item::before { content: ""; position: absolute; top: 0; left: 50px; right: 0; height: 1px; background: var(--row-line); }
+.hist-dir { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.hist-dir svg { width: 13px; height: 13px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hist-dir.out { background: var(--accent); }
+.hist-dir.in { background: var(--good); }
+.hist-text { flex: 1; min-width: 0; }
+.hist-preview { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hist-text .hint { color: var(--muted); font-size: 12px; }
+
+/* Roadmap pages */
+.soon { padding: 6px 0; }
+.soon-head { padding: 10px 14px 4px; }
+.soon-item { padding: 8px 14px; }
+.soon-item .hint { color: var(--muted); margin-top: 1px; }
+
+/* ---------- Windows additions ---------- */
+.keys { display: inline-flex; gap: 4px; }
+/* Cursor: read-only layout (the Mac sets it) */
+.layout-grid .pc-screen { background: linear-gradient(135deg, #8e8e93, #48484a); color: #fff; }
+.layout-grid .cell { border: 1.5px dashed var(--control-line); border-radius: 6px; }
+.layout-grid .cell.mac-here { border: 0; background: linear-gradient(135deg, #5ac8fa, #0a84ff); color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 600; }
+.layout-grid .cell:not(.mac-here):hover { border-color: var(--accent); background: var(--accent-soft); }
+/* Apps grid */
+.app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; padding: 8px 10px; max-height: 420px; overflow-y: auto; }
+.app-tile { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px; border: 0; border-radius: 8px; background: none; cursor: default; }
+.app-tile { transition: background-color 0.15s, transform 0.2s cubic-bezier(0.34, 1.4, 0.64, 1); }
+.app-tile:hover { background: var(--nav-hover); transform: translateY(-2px); }
+.app-tile:active { transform: scale(0.96); }
+.app-tile:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+.app-tile img, .app-noicon { width: 48px; height: 48px; }
+.app-noicon { display: grid; place-items: center; border-radius: 12px; background: var(--track-off); font-size: 20px; font-weight: 600; }
+.app-tile .app-name { font-size: 12px; text-align: center; line-height: 1.25; max-width: 92px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+/* Overview address, nearby list, OS glyphs */
+.row .value.addr { color: var(--text); user-select: text; }
+.row .hint.bad { color: var(--bad); }
+.row.with-ico .text { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; }
+.row.with-ico .os-ico { grid-row: span 2; }
+.os-ico { display: inline-block; position: relative; width: 22px; height: 14px; border: 2px solid var(--muted); border-radius: 3px; margin-bottom: 4px; }
+.os-ico.mac::after { content: ""; position: absolute; left: -5px; right: -5px; bottom: -5px; height: 2px; border-radius: 0 0 2px 2px; background: var(--muted); }
+.os-ico.phone { width: 11px; height: 17px; border-radius: 3px; margin: 0 5px 1px; }
+.os-ico.phone::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: 1px; height: 1.5px; border-radius: 1px; background: var(--muted); }
+.os-ico.pc::after { content: ""; position: absolute; left: 7px; right: 7px; bottom: -6px; height: 3px; border-bottom: 2px solid var(--muted); }
+
+/* Setup screen (like the Mac's) */
+body.setup #sidebar { display: none; }
+.setup-page { max-width: 560px; margin: 0 auto; padding: 56px 28px 40px; }
+.setup-page h1 { font-size: 24px; margin: 14px 0 4px; text-align: center; }
+.setup-page > p { text-align: center; color: var(--muted); margin: 0 0 24px; }
+.setup-page .app-mark { margin: 26px auto 36px; transform: scale(1.5); }
+.setup-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; gap: 12px; }
+.setup-foot .hint { color: var(--muted); font-size: 12px; }
+
+/* Send files drop zone, progress bar, shortcut recorder (same as mac/control-pages.css) */
+.dropzone { margin: 12px 14px; height: 96px; border: 1.5px dashed var(--control-line); border-radius: 10px; display: grid; place-items: center; text-align: center; color: var(--muted); transition: border-color 0.2s, background-color 0.2s, transform 0.25s var(--spring); }
+.dropzone .big { color: var(--text); font-weight: 500; }
+.dropzone.over { border-color: var(--accent); background: var(--accent-soft); transform: scale(1.01); }
+.dropzone.off { opacity: 0.5; }
+.bar { height: 4px; border-radius: 2px; background: var(--track-off); overflow: hidden; margin-top: 6px; }
+.bar > span { display: block; height: 100%; background: var(--accent); transition: width 0.3s var(--ease); }
+.btn.keyrec { min-width: 84px; font-variant-numeric: tabular-nums; }
+.btn.keyrec.on { border-color: var(--accent); color: var(--accent); }
+.hint.bad { color: var(--bad); }
+
+/* Pin to Start on a Mac app tile (shows on hover, like the Mac's Add to Dock) */
+.app-tile { position: relative; }
+.app-pin { position: absolute; top: 2px; right: 6px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; opacity: 0; transform: scale(0.7); transition: opacity 0.15s, transform 0.2s var(--spring); }
+.app-pin svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.app-tile:hover .app-pin, .app-pin:focus-visible { opacity: 1; transform: none; }
+
+/* About: app icon, name and version */
+.about-hero { display: flex; flex-direction: column; align-items: center; padding: 26px 20px 22px; text-align: center; }
+.about-icon { width: 96px; height: 96px;
+  background: image-set(url(assets/sidebar-icon@2x.png) 1x, url(assets/sidebar-icon@4x.png) 2x) center / contain no-repeat; }
+.about-name { font-weight: 700; font-size: 20px; letter-spacing: -0.2px; margin-top: 12px; }
+.about-ver { color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 2px; user-select: text; }
+.about-tag { color: var(--muted); font-size: 12px; margin-top: 8px; }
+
+/* ---------- Phone page ---------- */
+.phone-hero { display: flex; align-items: center; gap: 22px; padding: 18px 22px; }
+.device.phone.big { width: 58px; height: 108px; border-radius: 13px; margin: 0; flex: none; }
+.device.phone.big::after { left: 18px; right: 18px; bottom: 6px; }
+.phone-hero-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.phone-hero-text .hero-name { text-align: left; margin-top: 0; }
+.phone-hero-text .hero-status { text-align: left; margin: 0; padding: 0; border: 0; }
+.phone-hero-actions { display: flex; gap: 8px; margin-top: 8px; }
+.app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 4px; padding: 6px 10px 12px; max-height: 340px; overflow-y: auto; }
+.app-tile { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 4px; border: 0; border-radius: 9px; background: none; cursor: default; }
+.app-tile:hover:not(:disabled) { background: var(--nav-hover); }
+.app-tile:disabled { opacity: 0.45; }
+.app-tile img { width: 40px; height: 40px; }
+.app-tile span { font-size: 11px; line-height: 1.25; text-align: center; max-width: 100%; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.card .row input[type="search"] { flex: 1; width: 100%; }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The connected computer in the share sheet's top row (Shortcuts.kt publishes it). -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="adb"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_adb_short"
+        android:shortcutLongLabel="@string/sc_adb_long">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.twindesk.android" android:targetClass="com.twindesk.android.AdbActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="screen"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_screen_short"
+        android:shortcutLongLabel="@string/sc_screen_long">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.twindesk.android" android:targetClass="com.twindesk.android.ViewerActivity" />
+    </shortcut>
+    <share-target android:targetClass="com.twindesk.android.ShareActivity">
+        <data android:mimeType="*/*" />
+        <category android:name="com.twindesk.android.SHARE_TARGET" />
+    </share-target>
+</shortcuts>

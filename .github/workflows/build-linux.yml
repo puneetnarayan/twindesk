@@ -1,0 +1,65 @@
+name: Build Linux
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release to put the files on (e.g. v2.0.1; made as a draft if it isn't there). Empty = run artifacts only.
+        required: false
+        default: ''
+
+# Write: the full Android APK can come from a draft release, which a read-only token can't see.
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Always the main branch, whichever branch the run was started from.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libx11-dev \
+            libxi-dev \
+            libxtst-dev \
+            libxrandr-dev \
+            libxfixes-dev
+
+      - uses: ./.github/actions/android-full
+        with:
+          keystore: ${{ secrets.ANDROID_KEYSTORE }}
+
+      - name: Install dependencies
+        working-directory: linux
+        run: npm install
+
+      - name: Build Linux packages
+        working-directory: linux
+        run: npm run dist
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: twindesk-linux-x64
+          path: linux/dist/TwinDesk-*
+
+      # Straight onto the release, no download and re-upload.
+      - name: Upload to the release
+        if: inputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${{ inputs.tag }}" >/dev/null 2>&1 || gh release create "${{ inputs.tag }}" --draft --target main --title "${{ inputs.tag }}" --notes "" || true
+          gh release upload "${{ inputs.tag }}" linux/dist/TwinDesk-*.AppImage linux/dist/TwinDesk-*.deb --clobber

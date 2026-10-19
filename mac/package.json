@@ -1,0 +1,23 @@
+{
+  "name": "macshare-mac",
+  "productName": "TwinDesk",
+  "version": "2.0.1",
+  "description": "TwinDesk — the Mac side: pairing, secure link, screen sharing and shared mouse/keyboard with a Windows PC.",
+  "license": "GPL-3.0",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build:helper": "../mac-helper/build.sh 2>&1 | tail -30",
+    "probe": "node dev/probe.js",
+    "dist": "./build-app.sh",
+    "dmg": "./build-dmg.sh"
+  },
+  "dependencies": {
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^44.7.0"
+  }
+}
